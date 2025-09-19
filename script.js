@@ -218,4 +218,100 @@ document.addEventListener('mousemove', (e) => {
         transparent 50%), 
         #0a0a0f
     `;
+
 });
+
+
+</style>
+
+<script>
+// Certification section functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const seeMoreBtn = document.getElementById('seeMoreBtn');
+    const hiddenCerts = document.querySelectorAll('.hidden-cert');
+    const btnText = seeMoreBtn.querySelector('.btn-text');
+    let isExpanded = false;
+
+    seeMoreBtn.addEventListener('click', function() {
+        if (!isExpanded) {
+            // Show hidden certificates with staggered animation
+            hiddenCerts.forEach((cert, index) => {
+                setTimeout(() => {
+                    cert.classList.add('show');
+                }, index * 150);
+            });
+            
+            btnText.textContent = 'Show Less';
+            seeMoreBtn.classList.add('expanded');
+            isExpanded = true;
+        } else {
+            // Hide certificates
+            hiddenCerts.forEach((cert, index) => {
+                setTimeout(() => {
+                    cert.classList.remove('show');
+                    setTimeout(() => {
+                        cert.style.display = 'none';
+                    }, 600);
+                }, index * 50);
+            });
+            
+            btnText.textContent = 'See More Certifications';
+            seeMoreBtn.classList.remove('expanded');
+            isExpanded = false;
+            
+            // Scroll to certifications section
+            setTimeout(() => {
+                document.querySelector('.certifications-container').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300);
+        }
+    });
+
+    // Add hover effects to certificate cards
+    document.querySelectorAll('.certificate-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            // Add ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(124, 119, 198, 0.1);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+            
+            this.style.position = 'relative';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+});
+
+// Enhanced scroll animations for certificates
+const certObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+document.querySelectorAll('.certificate-card').forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = `all 0.8s ease-out ${index * 0.1}s`;
+    certObserver.observe(card);
+});
+</script>
