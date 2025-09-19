@@ -220,11 +220,6 @@ document.addEventListener('mousemove', (e) => {
     `;
 
 });
-
-
-</style>
-
-<script>
 // Certification section functionality
 document.addEventListener('DOMContentLoaded', function() {
     const seeMoreBtn = document.getElementById('seeMoreBtn');
@@ -314,4 +309,3 @@ document.querySelectorAll('.certificate-card').forEach((card, index) => {
     card.style.transition = `all 0.8s ease-out ${index * 0.1}s`;
     certObserver.observe(card);
 });
-</script>
