@@ -1,4 +1,3 @@
-// Enhanced form submission
 function handleSubmit(event) {
     event.preventDefault();
     
@@ -8,7 +7,6 @@ function handleSubmit(event) {
     const subject = formData.get('subject');
     const message = formData.get('message');
     
-    // Create success notification
     showNotification(`Thanks ${name}! Your message has been received. I'll get back to you soon! ✨`);
     
     event.target.reset();
@@ -16,7 +14,6 @@ function handleSubmit(event) {
     console.log('Form submitted:', { name, email, subject, message });
 }
 
-// Custom notification system
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.style.cssText = `
@@ -59,7 +56,6 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Enhanced scroll animations
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
@@ -81,7 +77,6 @@ document.querySelectorAll('.section').forEach((section, index) => {
     observer.observe(section);
 });
 
-// Enhanced particle system
 function createParticle() {
     const particle = document.createElement('div');
     particle.className = 'particle';
@@ -98,7 +93,6 @@ function createParticle() {
 
 setInterval(createParticle, 200);
 
-// Enhanced hover effects for cards
 document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-15px) scale(1.02)';
@@ -109,7 +103,6 @@ document.querySelectorAll('.project-card').forEach(card => {
     });
 });
 
-// Smooth cursor following effect
 document.addEventListener('mousemove', (e) => {
     const cursor = document.querySelector('.cursor');
     if (!cursor) {
@@ -134,7 +127,6 @@ document.addEventListener('mousemove', (e) => {
     cursorElement.style.top = e.clientY - 10 + 'px';
 });
 
-// Enhanced typing effect for the name
 function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.innerHTML = '';
@@ -149,7 +141,6 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Initialize typing effect after page load
 window.addEventListener('load', () => {
     setTimeout(() => {
         const nameElement = document.querySelector('h1');
@@ -158,7 +149,6 @@ window.addEventListener('load', () => {
     }, 500);
 });
 
-// Add parallax effect to floating shapes
 document.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const shapes = document.querySelectorAll('.shape');
@@ -169,7 +159,6 @@ document.addEventListener('scroll', () => {
     });
 });
 
-// Enhanced project card interactions
 document.querySelectorAll('.project-card').forEach((card, index) => {
     card.addEventListener('mouseenter', function() {
         // Add ripple effect
@@ -194,7 +183,6 @@ document.querySelectorAll('.project-card').forEach((card, index) => {
     });
 });
 
-// Add ripple animation
 const rippleStyle = document.createElement('style');
 rippleStyle.textContent = `
     @keyframes ripple {
@@ -207,7 +195,6 @@ rippleStyle.textContent = `
 `;
 document.head.appendChild(rippleStyle);
 
-// Add dynamic gradient background that responds to mouse movement
 document.addEventListener('mousemove', (e) => {
     const x = e.clientX / window.innerWidth;
     const y = e.clientY / window.innerHeight;
@@ -220,7 +207,7 @@ document.addEventListener('mousemove', (e) => {
     `;
 
 });
-// Certification section functionality
+
 document.addEventListener('DOMContentLoaded', function() {
     const seeMoreBtn = document.getElementById('seeMoreBtn');
     const hiddenCerts = document.querySelectorAll('.hidden-cert');
@@ -229,7 +216,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     seeMoreBtn.addEventListener('click', function() {
         if (!isExpanded) {
-            // Show hidden certificates with staggered animation
             hiddenCerts.forEach((cert, index) => {
                 setTimeout(() => {
                     cert.classList.add('show');
@@ -240,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
             seeMoreBtn.classList.add('expanded');
             isExpanded = true;
         } else {
-            // Hide certificates
             hiddenCerts.forEach((cert, index) => {
                 setTimeout(() => {
                     cert.classList.remove('show');
@@ -253,8 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
             btnText.textContent = 'See More Certifications';
             seeMoreBtn.classList.remove('expanded');
             isExpanded = false;
-            
-            // Scroll to certifications section
             setTimeout(() => {
                 document.querySelector('.certifications-container').scrollIntoView({
                     behavior: 'smooth',
@@ -263,11 +246,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }
     });
-
-    // Add hover effects to certificate cards
     document.querySelectorAll('.certificate-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
-            // Add ripple effect
             const ripple = document.createElement('div');
             ripple.style.cssText = `
                 position: absolute;
@@ -290,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Enhanced scroll animations for certificates
 const certObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -309,3 +288,4 @@ document.querySelectorAll('.certificate-card').forEach((card, index) => {
     card.style.transition = `all 0.8s ease-out ${index * 0.1}s`;
     certObserver.observe(card);
 });
+
