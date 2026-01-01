@@ -8,6 +8,27 @@
     <script src="script.js"></script>
 </head>
 <body>
+    <!-- Add this right after <body> tag -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-profile">
+                <img src="img/Muhammad Hamza.png" alt="Profile" class="navbar-img">
+                <span class="navbar-name">Muhammad Hamza</span>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="navbar-toggle" id="navbarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
     <div class="floating-shapes">
         <div class="shape"></div>
         <div class="shape"></div>
@@ -15,7 +36,7 @@
     </div>
 
     <div class="container">
-        <header>
+        <header id = "home">
             <img src="img/Muhammad Hamza.png" alt="Profile Picture" class="profile-img">
             <h1 class="glow-text">Muhammad Hamza</h1>
             <p class="subtitle">A Passionate Self Taught Programmer.</p>
@@ -32,7 +53,7 @@
             </div>
         </header>
 
-        <section class="section">
+        <section class="section" id = "skills">
             <h2>Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-item">Web Development</div>
@@ -58,7 +79,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section class="section" id = "projects">
             <h2>Featured Projects</h2>
              <div class="projects-grid">
                  <!--
@@ -111,7 +132,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section class="section" id = "certifications">
             <h2>Certifications & Achievements</h2>
             <div class="certifications-container">
                 <div class="certifications-grid" id="certificationsGrid">
@@ -207,7 +228,7 @@
             </div>
         </section>
 
-        <section class="section">
+        <section class="section" id = "contact">
             <h2>Get In Touch</h2>
             <form class="contact-form" action="https://formspree.io/f/mwpnykpn" method="POST">
                 <div class="form-group">
@@ -232,9 +253,8 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Muhammad Hamza. Crafted with passion and code.</p>
-    </footer>
-
+        © <span id="year"></span> Muhammad Hamza. Crafted with passion and code.
+      </footer>
 </body>
 
 </html>
