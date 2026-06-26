@@ -1,379 +1,281 @@
-function handleSubmit(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(event.target);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
-    
-    showNotification(`Thanks ${name}! Your message has been received. I'll get back to you soon! ✨`);
-    
-    event.target.reset();
-    
-    console.log('Form submitted:', { name, email, subject, message });
-}
-
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #7c77c6, #ff77c6);
-        color: white;
-        padding: 20px 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        z-index: 1000;
-        animation: slideInRight 0.5s ease-out;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        font-weight: 500;
-    `;
-    notification.textContent = message;
-    
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideInRight 0.5s ease-out reverse';
-        setTimeout(() => notification.remove(), 500);
-    }, 3000);
-}
-
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-document.querySelectorAll('.section').forEach((section, index) => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(60px)';
-    section.style.transition = `all 0.8s ease-out ${index * 0.2}s`;
-    observer.observe(section);
-});
-
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + 'vw';
-    particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-    particle.style.opacity = Math.random() * 0.5 + 0.3;
-    
-    document.body.appendChild(particle);
-    
-    setTimeout(() => {
-        particle.remove();
-    }, 8000);
-}
-
-setInterval(createParticle, 200);
-
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-15px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-document.addEventListener('mousemove', (e) => {
-    const cursor = document.querySelector('.cursor');
-    if (!cursor) {
-        const newCursor = document.createElement('div');
-        newCursor.className = 'cursor';
-        newCursor.style.cssText = `
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, rgba(124, 119, 198, 0.6), transparent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            mix-blend-mode: difference;
-        `;
-        document.body.appendChild(newCursor);
-    }
-    
-    const cursorElement = document.querySelector('.cursor');
-    cursorElement.style.left = e.clientX - 10 + 'px';
-    cursorElement.style.top = e.clientY - 10 + 'px';
-});
-
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    type();
-}
-
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const nameElement = document.querySelector('h1');
-        const originalText = nameElement.textContent;
-        typeWriter(nameElement, originalText, 80);
-    }, 500);
-});
-
-document.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const shapes = document.querySelectorAll('.shape');
-    
-    shapes.forEach((shape, index) => {
-        const speed = 0.5 + (index * 0.1);
-        shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
-    });
-});
-
-document.querySelectorAll('.project-card').forEach((card, index) => {
-    card.addEventListener('mouseenter', function() {
-        // Add ripple effect
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(124, 119, 198, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: ripple 0.6s ease-out;
-            pointer-events: none;
-        `;
-        
-        this.style.position = 'relative';
-        this.appendChild(ripple);
-        
-        setTimeout(() => ripple.remove(), 600);
-    });
-});
-
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = `
-    @keyframes ripple {
-        to {
-            width: 300px;
-            height: 300px;
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(rippleStyle);
-
-document.addEventListener('mousemove', (e) => {
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
-    
-    document.body.style.background = `
-        radial-gradient(circle at ${x * 100}% ${y * 100}%, 
-        rgba(124, 119, 198, 0.1) 0%, 
-        transparent 50%), 
-        #0a0a0f
-    `;
-
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const seeMoreBtn = document.getElementById('seeMoreBtn');
-    const hiddenCerts = document.querySelectorAll('.hidden-cert');
-    const btnText = seeMoreBtn.querySelector('.btn-text');
-    let isExpanded = false;
-
-    seeMoreBtn.addEventListener('click', function() {
-        if (!isExpanded) {
-            hiddenCerts.forEach((cert, index) => {
-                setTimeout(() => {
-                    cert.classList.add('show');
-                }, index * 150);
-            });
-            
-            btnText.textContent = 'Show Less';
-            seeMoreBtn.classList.add('expanded');
-            isExpanded = true;
-        } else {
-            hiddenCerts.forEach((cert, index) => {
-                setTimeout(() => {
-                    cert.classList.remove('show');
-                    setTimeout(() => {
-                        cert.style.display = 'none';
-                    }, 600);
-                }, index * 50);
-            });
-            
-            btnText.textContent = 'See More Certifications';
-            seeMoreBtn.classList.remove('expanded');
-            isExpanded = false;
-            setTimeout(() => {
-                document.querySelector('.certifications-container').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }, 300);
-        }
-    });
-    document.querySelectorAll('.certificate-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            const ripple = document.createElement('div');
-            ripple.style.cssText = `
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 0;
-                height: 0;
-                background: rgba(124, 119, 198, 0.1);
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                animation: ripple 0.6s ease-out;
-                pointer-events: none;
-            `;
-            
-            this.style.position = 'relative';
-            this.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 600);
-        });
-    });
-});
-
-const certObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-});
-
-document.querySelectorAll('.certificate-card').forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = `all 0.8s ease-out ${index * 0.1}s`;
-    certObserver.observe(card);
-});
-
-// Navbar functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const navbar = document.getElementById('navbar');
-    const navbarToggle = document.getElementById('navbarToggle');
-    const navbarMenu = document.querySelector('.navbar-menu');
-    const navbarLinks = document.querySelectorAll('.navbar-menu a');
-
-    // Scroll effect for navbar
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        // Add scrolled class when scrolled down
-        if (currentScroll > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        lastScroll = currentScroll;
-    });
-
-    // Mobile menu toggle
-    navbarToggle.addEventListener('click', () => {
-        navbarToggle.classList.toggle('active');
-        navbarMenu.classList.toggle('active');
-    });
-
-    // Smooth scrolling for navbar links
-    navbarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const navbarHeight = navbar.offsetHeight;
-                const targetPosition = targetSection.offsetTop - navbarHeight - 20;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-
-                // Close mobile menu after clicking
-                navbarToggle.classList.remove('active');
-                navbarMenu.classList.remove('active');
-            }
-        });
-    });
-
-    // Active link highlight on scroll
-    window.addEventListener('scroll', () => {
-        let current = '';
-        const sections = document.querySelectorAll('section, header');
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= (sectionTop - navbar.offsetHeight - 100)) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navbarLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!navbar.contains(e.target)) {
-            navbarToggle.classList.remove('active');
-            navbarMenu.classList.remove('active');
-        }
-    });
-});
-// Dynamically set the current year in the footer
+// ============================================
+// Year in footer
+// ============================================
 document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('year');
     if (yearEl) {
         yearEl.textContent = new Date().getFullYear();
     }
+});
+
+// ============================================
+// Reduced motion check
+// ============================================
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ============================================
+// Scroll reveal — single observer, reused for
+// sections, project cards, and cert rows
+// ============================================
+function initScrollReveal() {
+    const targets = document.querySelectorAll('.section, .project-card, .cert-row');
+
+    if (prefersReducedMotion) {
+        targets.forEach(el => el.classList.add('is-visible'));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    targets.forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.transitionDelay = `${Math.min(i % 6, 5) * 0.06}s`;
+        observer.observe(el);
+    });
+}
+
+// ============================================
+// Navbar: scroll shadow, mobile toggle,
+// smooth-scroll links, active-link tracking
+// ============================================
+function initNavbar() {
+    const navbar = document.getElementById('navbar');
+    const toggle = document.getElementById('navbarToggle');
+    const menu = document.getElementById('navbarMenu');
+    const links = menu.querySelectorAll('a');
+    const sections = document.querySelectorAll('section[id], header[id]');
+
+    let ticking = false;
+
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+
+            navbar.classList.toggle('scrolled', scrollY > 40);
+
+            let current = '';
+            sections.forEach(section => {
+                const top = section.offsetTop - navbar.offsetHeight - 100;
+                if (scrollY >= top) {
+                    current = section.id;
+                }
+            });
+
+            links.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+            });
+
+            ticking = false;
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    toggle.addEventListener('click', () => {
+        const isActive = menu.classList.toggle('active');
+        toggle.classList.toggle('active', isActive);
+        toggle.setAttribute('aria-expanded', String(isActive));
+    });
+
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            const target = document.querySelector(targetId);
+            if (!target) return;
+
+            e.preventDefault();
+            const offset = target.offsetTop - navbar.offsetHeight - 16;
+            window.scrollTo({ top: offset, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+
+            menu.classList.remove('active');
+            toggle.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target)) {
+            menu.classList.remove('active');
+            toggle.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+// ============================================
+// Back to top
+// ============================================
+function initBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+}
+
+// ============================================
+// Contact form — real validation, inline
+// status message, no DOM-spawning toast
+// ============================================
+function initContactForm() {
+    const form = document.getElementById('contactForm');
+    if (!form) return;
+
+    const status = document.getElementById('formStatus');
+    const submitBtn = form.querySelector('.btn-submit');
+
+    const fields = {
+        name: { input: document.getElementById('name'), error: document.getElementById('nameError') },
+        email: { input: document.getElementById('email'), error: document.getElementById('emailError') },
+        subject: { input: document.getElementById('subject'), error: document.getElementById('subjectError') },
+        message: { input: document.getElementById('message'), error: document.getElementById('messageError') },
+    };
+
+    function validateField(key) {
+        const { input, error } = fields[key];
+        const value = input.value.trim();
+        let message = '';
+
+        if (!value) {
+            message = 'This field is required.';
+        } else if (key === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            message = 'Enter a valid email address.';
+        }
+
+        input.classList.toggle('invalid', Boolean(message));
+        error.textContent = message;
+        return !message;
+    }
+
+    Object.keys(fields).forEach(key => {
+        fields[key].input.addEventListener('blur', () => validateField(key));
+    });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const allValid = Object.keys(fields).every(validateField);
+        if (!allValid) {
+            status.textContent = '';
+            return;
+        }
+
+        submitBtn.disabled = true;
+        status.textContent = 'Sending...';
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { Accept: 'application/json' },
+            });
+
+            if (response.ok) {
+                status.textContent = `Thanks, ${fields.name.input.value.trim()}. Your message is on its way.`;
+                form.reset();
+            } else {
+                status.textContent = 'Something went wrong. Try again, or email me directly.';
+            }
+        } catch {
+            status.textContent = 'Something went wrong. Try again, or email me directly.';
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+}
+
+// ============================================
+// Theme toggle — persists choice, syncs aria-pressed.
+// Initial theme is set by an inline script in <head>
+// so there's no flash of the wrong theme on load.
+// ============================================
+function initThemeToggle() {
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+
+    const root = document.documentElement;
+
+    function syncAria() {
+        btn.setAttribute('aria-pressed', String(root.getAttribute('data-theme') === 'light'));
+    }
+
+    syncAria();
+
+    btn.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        try {
+            localStorage.setItem('theme', next);
+        } catch {
+            // Storage blocked (private mode, etc.) — theme just won't persist.
+        }
+        syncAria();
+    });
+}
+
+// ============================================
+// Projects carousel — scroll-by-card buttons,
+// disabled state at the scroll edges
+// ============================================
+function initProjectsCarousel() {
+    const track = document.getElementById('projectsTrack');
+    const prev = document.getElementById('projectsPrev');
+    const next = document.getElementById('projectsNext');
+    if (!track || !prev || !next) return;
+
+    function cardStep() {
+        const card = track.querySelector('.project-card');
+        if (!card) return track.clientWidth;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+        return card.getBoundingClientRect().width + gap;
+    }
+
+    function updateButtons() {
+        const maxScroll = track.scrollWidth - track.clientWidth - 1;
+        prev.disabled = track.scrollLeft <= 0;
+        next.disabled = track.scrollLeft >= maxScroll;
+    }
+
+    prev.addEventListener('click', () => {
+        track.scrollBy({ left: -cardStep(), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+
+    next.addEventListener('click', () => {
+        track.scrollBy({ left: cardStep(), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+
+    let ticking = false;
+    track.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            updateButtons();
+            ticking = false;
+        });
+    }, { passive: true });
+
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
+}
+
+// ============================================
+// Init
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    initNavbar();
+    initScrollReveal();
+    initBackToTop();
+    initContactForm();
+    initThemeToggle();
+    initProjectsCarousel();
 });
